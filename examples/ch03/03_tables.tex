@@ -1,0 +1,39 @@
+% !TeX program = xelatex
+\documentclass[UTF8,11pt,a4paper,linespread=1]{ctexart}
+\usepackage[margin=26mm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{setspace}
+\setstretch{1.35}
+\usepackage{booktabs}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{document}
+\section*{同一组数据，两种表格}
+\begin{table}[htbp]
+  \centering
+  \caption{普通网格表}
+  \begin{tabular}{|l|c|r|}
+    \hline
+    方法 & 步数 & 误差 \\
+    \hline
+    方法甲 & 20 & 0.018 \\
+    方法乙 & 40 & 0.004 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{同一数据的三线表}
+  \begin{tabular}{lrr}
+    \toprule
+    方法 & 步数 & 误差 \\
+    \midrule
+    方法甲 & 20 & 0.018 \\
+    方法乙 & 40 & 0.004 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+表中数据仅用于排版演示。
+
+\end{document}

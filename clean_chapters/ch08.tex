@@ -1,0 +1,94 @@
+% !TeX program = xelatex
+\begin{filecontents*}{audit-references.bib}
+@book{liu2013,
+  author = {刘海洋},
+  title = {{LaTeX} 入门},
+  address = {北京},
+  publisher = {电子工业出版社},
+  year = {2013}
+}
+@online{amsmathGuide,
+  author = {{American Mathematical Society} and {The LaTeX Project}},
+  title = {User's Guide for the {amsmath} Package},
+  year = {2020},
+  url = {https://tug.ctan.org/macros/latex/required/amsmath/amsldoc.pdf},
+  urldate = {2026-11-04}
+}
+\end{filecontents*}
+\documentclass[UTF8,11pt,a4paper,oneside,openany,linespread=1]{ctexbook}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,bm,booktabs,array,enumitem}
+\usepackage{setspace}
+\setstretch{1.28}
+\setlength{\parskip}{3pt}
+\setlength{\jot}{5pt}
+\raggedbottom
+\usepackage{gbt7714}
+\usepackage[unicode,hidelinks]{hyperref}
+\bibliographystyle{gbt7714-numerical}
+\begin{document}
+\setcounter{chapter}{7}
+\chapter{数模论文实战（下）——文献与排错}
+
+\section{中文文献与引用}
+我用 gbt7714 排顺序编码制参考文献。示例沿用 TeX Live 2024 中的
+\texttt{gbt7714-numerical}，对应 GB/T 7714—2015。
+
+使用 gbt7714 3.1.1 时，将样式名改为 \texttt{gbt7714-numeric}。
+GB/T 7714—2025 已于 2026 年 7 月实施，交稿前请核对接收方要求的版本。
+\href{https://std.samr.gov.cn/gb/search/gbDetailed?id=4507EFE13D37CB6AE06397BE0A0A601F}{国家标准信息}
+
+例子引用了刘海洋的中文入门书\cite{liu2013}和 amsmath 手册\cite{amsmathGuide}。
+数据库中的引用键用来调用条目，不必自己手写文献编号。
+
+filecontents 首次运行会建立演示数据库。若同名文件已经存在，
+修改条目后要同步更新对应的 .bib 文件，或在新的演示文件夹中编译。
+署名、标题和出版信息仍应从原始资料核对，排版工具不会替我查证。
+
+\section{按四步编译}
+这份例子使用传统 BibTeX，流程仍是四步：
+\begin{enumerate}
+  \item XeLaTeX 读取正文，写出引用和样式信息。
+  \item BibTeX 读取辅助文件与数据库，生成文献内容。
+  \item XeLaTeX 排出文献表，并将条目对应的编号写入辅助文件。
+  \item XeLaTeX 再跑一次，使引用稳定。
+\end{enumerate}
+主文件若叫 main.tex，BibTeX 的作业名就是 main，不是数据库名。
+gbt7714 与 biblatex-gb7714 不要混用；后者常搭配 Biber。
+
+\section{三种常见报错，我怎样排查}
+\subsection{少了括号，后面都成了嫌疑人}
+看到 \verb|Missing } inserted| 时，我会查前面的花括号和分式。
+少一个右花括号，后面几段就可能被吃进同一个参数。
+
+看到 \verb|Runaway argument?| 时，我会先查上一条命令的参数是否完整。
+再逐个核对相关环境的起止。
+
+\subsection{命令拼错，也可能是宏包缺席}
+Undefined control sequence 指向不认识的命令。
+我先核对拼写、大小写和反斜杠，再查所需宏包或自定义命令。
+拿一份最小例子验证，比一次塞进十个宏包可靠。
+
+\subsection{文件明明在，为什么还说找不到}
+File not found 时，我查编译工作目录、相对路径、扩展名和大小写，
+也留意系统隐藏的双后缀。把 JPG 改成 PNG 后缀并不会转换格式。
+日志是案发现场，最后那句“没生成 PDF”通常只是结案通知，线索还在前面。
+
+\section{交稿前的核对表}
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+对象 & 我会检查 \\
+\midrule
+首页 & 标题、页码、匿名信息与元数据 \\
+引用 & 是否还有问号、跳转目标是否正确 \\
+图表 & 单位、图题、数据来源和小数精度 \\
+程序 & 是否能复现正文中的结果 \\
+文献 & 署名、年份、来源和实际引用位置 \\
+\bottomrule
+\end{tabular}
+\end{center}
+我会实际打开 PDF 检查，而不只看源码里“应该没问题”。
+Overfull 是内容越界的提醒，文件能生成也仍需修版面。
+\bibliography{audit-references}
+\end{document}

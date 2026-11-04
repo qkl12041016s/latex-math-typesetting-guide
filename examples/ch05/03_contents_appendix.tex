@@ -1,0 +1,30 @@
+% !TeX program = xelatex
+\documentclass[UTF8,11pt,openany,oneside,linespread=1]{ctexbook}
+\usepackage[margin=26mm]{geometry}
+\usepackage{amsmath,xcolor}
+\usepackage{setspace}
+\setstretch{1.35}
+\usepackage[unicode,colorlinks=true,linkcolor=teal]{hyperref}
+\begin{document}
+\frontmatter
+\chapter{阅读说明}
+这部分是正文前的说明，不计入正文的章节编号。
+\tableofcontents
+
+\mainmatter
+\chapter{积分基础}
+\section{面积函数}
+\[
+  A(x)=\int_0^x t^2\,\mathrm{d}t.
+\]
+
+\appendix
+\chapter{常用积分公式}\label{app:integrals}
+\[
+  \int x^2\,\mathrm{d}x=\frac{x^3}{3}+C.
+\]
+
+\backmatter
+\chapter{补充说明}
+公式附录见附录~\ref{app:integrals}。
+\end{document}

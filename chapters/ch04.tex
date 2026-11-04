@@ -1,0 +1,64 @@
+\chapter{自定义环境与常用命令}
+
+\section{列表该不该编号}
+并列的材料用 itemize，有先后顺序的步骤用 enumerate。
+\begin{itemize}
+  \item 定理及其适用条件；
+  \item 一个完整例题；
+  \item 一条值得回查的计算提醒。
+\end{itemize}
+\begin{enumerate}[label=\arabic*.,leftmargin=*]
+  \item 检查条件和定义域。
+  \item 选择计算方法。
+  \item 代回原式检查结果。
+\end{enumerate}
+我不手敲编号。中间插入一步以后，自动编号比挨个改数字省事。
+
+\section{把知识框定义一次}
+\begin{conceptbox}{原函数}
+在一个区间上，若 \(F'=f\)，就称 \(F\) 是 \(f\) 的原函数。
+\end{conceptbox}
+\begin{methodbox}{先检查，再计算}
+先写适用条件，再给出计算过程，最后代回检查。
+\end{methodbox}
+\begin{pitfallbox}
+两个原函数之差为常数，需要在同一个区间上理解。
+\end{pitfallbox}
+\begin{notetheorem}{原函数差为常数}{constant}
+若 \(F\) 与 \(G\) 是区间上同一函数的原函数，则 \(F-G\) 为常数。
+\end{notetheorem}
+
+\verb|\newtcolorbox| 后第一组花括号是环境名称，\verb|[1]| 表示定义的环境接收一个必填参数。
+样式里的 \verb|#1| 是使用时填写的标题。固定标题的踩坑框不接收参数。
+我把共同设置放进 tcbset，再给不同环境指定标题和颜色。
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+参数 & 控制内容 \\
+\midrule
+colframe / colback & 边框颜色与正文底色 \\
+colbacktitle / coltitle & 标题条底色与标题文字颜色 \\
+boxrule / arc & 边框粗细与圆角 \\
+left / right / top / bottom & 框内留白 \\
+before skip / after skip & 框前后的空隙 \\
+breakable & 是否允许框跨页 \\
+\bottomrule
+\end{tabular}
+\end{center}
+长推导用普通正文更易读。我用 \verb|\newtcbtheorem| 为定理自动编号。
+
+\section{用命令统一记号}
+我把常用数集、向量和微分记号定义在导言区：
+\[
+  D\subseteq\R,\qquad\vect{x}\in\R^n,\qquad
+  \int_0^1x^2\,\dd x=\frac13.
+\]
+没有参数的命令代替固定记号，有参数的命令封装一类操作。
+以后改变向量风格，只改 vect 的定义，不用全书替换字母。
+
+newcommand 遇到已有名字会报错，renewcommand 则要求原定义存在。
+先查重名来自哪里，再决定换名或重定义，别为了让日志安静而盲目覆盖。
+
+\section*{本章完整源码}
+\sourceattachment{clean_chapters/ch04.tex}
+\VerbatimInput{clean_chapters/ch04.tex}

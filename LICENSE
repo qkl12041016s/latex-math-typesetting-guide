@@ -1,0 +1,39 @@
+从笔记到论文：LaTeX 数学排版实战指南
+Copyright (c) 2026 雪落长安无声
+
+书稿与版面
+
+本项目原创书稿、示例 LaTeX 文档、插图、演示数据和编译生成的 PDF
+采用知识共享署名—非商业性使用 4.0 国际许可协议（CC BY-NC 4.0）。
+该协议允许在非商业用途下分享和改编。分享时请保留署名、作品链接和许可信息，
+如有修改请注明。授权条款以 Creative Commons 的官方中文版全文为准：
+https://creativecommons.org/licenses/by-nc/4.0/legalcode.zh-hans
+
+作品来源：https://github.com/qkl12041016s/latex-math-typesetting-guide
+第三方材料和依赖项适用各自的许可。
+
+独立代码与构建脚本
+
+本项目原创的 build.ps1 和 assets/export_model_comparison.py 使用以下许可：
+
+MIT License
+
+Copyright (c) 2026 雪落长安无声
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

@@ -1,0 +1,48 @@
+\chapter{数模论文实战（上）：摘要、子图与算法}
+
+我读摘要时最想知道的是：解决什么问题，用了什么方法，结果是多少。只写“建立模型并得到较好结果”，几乎等于没说。排摘要、对比图和伪代码时，我也按这个标准检查：有没有把工作交代清楚。
+
+\section{摘要页要放哪些内容}
+
+标题说明对象，摘要写方法与结果，末尾交代检验和局限，关键词选具体对象或方法。我不建议把背景铺满半页，再把结果挤成最后一句。
+
+这份代码演示国赛电子稿的摘要页。使用 A4 纸和 25 mm 四边边距，页码从 1 开始，放在页脚中央。请用实际模型和实验结果替换方括号内的内容。
+
+\begin{tcolorbox}[colback=Teal!4,colframe=Teal,boxrule=.7pt,arc=1mm,fontupper=\small\bfseries]\textbf{【特别说明】本节使用独立小样。按摘要页示例单独编译，以保留独立页码。}\end{tcolorbox}
+
+\examplecode{examples/ch07/01_abstract.tex}
+\examplepreview{previews/ch07_01_abstract-p1.png}
+
+填模板时，把验证方式、指标单位、基准方法和数值一起补全。没有做过的检验不要写，空着的结果也不能靠编造数字补齐。
+
+按国赛 2026 年修订稿，摘要连同标题和关键词原则上不超过一页。电子稿从摘要页开始，正文限 30 页且不设目录。四边页边距至少 25 mm，摘要、正文和附录均须遵守匿名要求。字号、字体和行距由赛区按需补充规定。\href{https://www.mcm.edu.cn/html_cn/node/4cd596519c9eb9fbd866398f6df0caa3.html}{国赛 2026 年论文格式规范}
+
+美赛的 Summary Sheet 与整篇报告另有要求，不能把这张中文页改个标题就直接提交。参赛前回到当届官方文件核对。\href{https://www.contest.comap.com/undergraduate/contests/mcm/instructions.html}{COMAP 官方说明}
+
+\section{两张对比图放在同一行}
+
+\begin{tcolorbox}[colback=Teal!4,colframe=Teal,boxrule=.7pt,arc=1mm,fontupper=\small\bfseries]\textbf{【特别说明】本节使用独立小样。编号和交叉引用通常需要编译两遍。搬回第一章的 ctexbook 模板时，复制文档起止命令之间的正文。另外在导言区补载 subcaption。}\end{tcolorbox}
+
+\examplecode{examples/ch07/02_subfigures.tex}
+\examplepreview{previews/ch07_02_subfigures-p1.png}
+
+每个 subfigure 有自己的宽度、图题与标签，外层 figure 再给整组图题。两块各占行宽的 47\%，中间留弹性间隔；宽度加上间隔超过整行，自然会换行。
+
+子图内部的 linewidth 指它自己的行宽，不能误用整页文字宽度。这里直接放绘图代码；换成现成图片时，替换绘图部分即可，子图的组织方式不变。(a)、(b) 由 subcaption 自动生成，不必画进图片。
+
+我比较图形时会特别看坐标范围和单位。两条曲线看上去差很多，有时只是纵轴范围不同。颜色含义、图例位置也尽量一致，别让读者先花时间适应两套标尺。
+
+\section{带行号的算法伪代码}
+
+输入、循环条件和停止原因先写完整，再调算法外观。这个例子保留最大迭代次数，以免把不收敛写成无限运行。
+
+\begin{tcolorbox}[colback=Teal!4,colframe=Teal,boxrule=.7pt,arc=1mm,fontupper=\small\bfseries]\textbf{【特别说明】本节使用独立小样。编号和交叉引用通常需要编译两遍。搬回第一章的 ctexbook 模板时，复制文档起止命令之间的正文。另外合入 algorithm2e 及其设置。}\end{tcolorbox}
+
+\examplecode{examples/ch07/03_algorithm.tex}
+\examplepreview{previews/ch07_03_algorithm-p1.png}
+
+\texttt{linesnumbered} 开启行号，\texttt{ruled} 在算法浮动体上绘制横线，\verb|\SetAlgoLined| 用竖线标出控制块的范围。\verb|\SetKwInput| 定义“输入”和“输出”栏目。初值、计数和梯度各占一行，用 \verb|\;| 结束算法行。
+
+达到梯度容差与用完迭代次数是两种不同状态。固定步长能否收敛，要结合函数和步长分析；梯度足够小也不等于已经找到全局最优解。我把停止原因列出来，就是为了让结果保留这层区别。
+
+algorithm2e 自带算法浮动环境。如果项目里已有另一套同名 algorithm 环境，先选定一套再迁移，不要混着加载。

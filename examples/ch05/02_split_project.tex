@@ -1,0 +1,26 @@
+% !TeX program = xelatex
+\begin{filecontents*}{demo05-foundation.tex}
+\chapter{基本概念}\label{ch:foundation}
+设 \(f\) 连续，定义面积函数
+\[
+  A(x)=\int_0^x f(t)\,\mathrm{d}t.
+\]
+\end{filecontents*}
+\begin{filecontents*}{demo05-practice.tex}
+\chapter{计算练习}
+回到第~\ref{ch:foundation}~章的面积函数，试取 \(f(t)=t^2\)。
+\end{filecontents*}
+
+\documentclass[UTF8,11pt,openany,oneside,linespread=1]{ctexbook}
+\usepackage[margin=26mm]{geometry}
+\usepackage{amsmath,xcolor}
+\usepackage{setspace}
+\setstretch{1.35}
+\usepackage[unicode,colorlinks=true,linkcolor=teal]{hyperref}
+\begin{document}
+\tableofcontents
+% input 可以放在几乎任何需要读入内容的位置，不主动要求另起一页。
+\input{demo05-foundation}
+% include 按独立单元读入内容，在前后执行清页操作。
+\include{demo05-practice}
+\end{document}

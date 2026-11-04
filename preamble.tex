@@ -1,0 +1,156 @@
+\defaultCJKfontfeatures{} % 避免请求字体未提供的 CJK 脚本特性
+\newif\ifwinfonts
+\IfFontExistsTF{SimSun}{\IfFontExistsTF{SimHei}{%
+  \IfFontExistsTF{KaiTi}{\winfontstrue}{} }{} }{}
+\ifwinfonts
+  \setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+  \setCJKsansfont[BoldFont=SimHei]{SimHei}
+  \setCJKmonofont{SimSun}
+\else
+\setCJKmainfont[BoldFont=FandolSong-Bold,
+  ItalicFont=FandolKai-Regular]{FandolSong-Regular}
+\setCJKsansfont[BoldFont=FandolHei-Bold]{FandolHei-Regular}
+\setCJKmonofont{FandolFang-Regular}
+\fi
+
+% ===== 1. 页面尺寸、边距与页眉页脚 =====
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  inner=26mm,outer=23mm,    % 内侧靠书脊，多留 3 mm；偶数页自动镜像
+  top=25mm,bottom=25mm,
+  includeheadfoot,         % 上下边距按“含页眉页脚的整体区域”计算
+  headheight=16pt,         % 为页眉内容预留高度
+  headsep=6mm,footskip=10mm
+}
+% 不再另加 bindingoffset：这套内边距已考虑日常薄册装订。
+
+% ===== 2. 行距与段落间距 =====
+\usepackage{setspace}
+\setstretch{1.35}          % 标准基线距离的 1.35 倍，不是字号的 1.35 倍
+\setlength{\parindent}{2\ccwd} % 首行缩进两个汉字
+\setlength{\parskip}{3pt plus 1pt minus 1pt}
+\raggedbottom             % 允许页底留白，避免为了齐底过度拉伸段落间距
+
+% ===== 3. 数学环境与图表 =====
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{graphicx,booktabs,tabularx,longtable}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{enumitem}
+\setlist{leftmargin=2\ccwd,itemsep=3pt,topsep=6pt}
+\renewcommand{\arraystretch}{1.2} % 适当增加表格行高
+\setlength{\jot}{5pt}           % 增加多行公式的行间距
+\numberwithin{equation}{chapter}
+\newcommand{\dd}{\mathop{}\!\mathrm{d}} % 微分符号采用直立体，并调整前置间距
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\vect}[1]{\bm{#1}}
+
+% ===== 4. 配色与知识卡片 =====
+\usepackage{xcolor}
+\definecolor{Ink}{HTML}{19364A}
+\definecolor{Teal}{HTML}{227C81}
+\definecolor{Gold}{HTML}{A87830}
+\definecolor{Rust}{HTML}{9B483A}
+\definecolor{CoverTeal}{HTML}{20ADAA}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\tcbset{
+  enhanced,breakable,boxrule=0.45pt,arc=1mm,
+  left=3mm,right=3mm,top=2mm,bottom=2mm,
+  before skip=10pt,after skip=10pt,lines before break=3,
+  colback=Teal!3!white,colframe=Teal,fonttitle=\bfseries
+}
+\newtcolorbox{conceptbox}[1]{title={概念：#1},colframe=Ink,colback=Ink!3!white}
+\newtcolorbox{methodbox}[1]{title={方法卡：#1}}
+\newtcolorbox{pitfallbox}{title=我踩过的坑,
+  colframe=Rust,colback=Rust!3!white}
+\newtcbtheorem[number within=chapter]{notetheorem}{定理}
+  {colframe=Ink,colback=Ink!3!white}{thm}
+
+% ===== 5. 标题层级与页眉 =====
+\ctexset{
+  chapter={format=\huge\bfseries\color{Ink},
+    beforeskip=8pt,afterskip=20pt},
+  section={format=\Large\bfseries\color{Teal},
+    beforeskip=18pt,afterskip=9pt},
+  subsection={format=\large\bfseries\color{Ink},
+    beforeskip=12pt,afterskip=6pt}
+}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+\let\cleardoublepage\clearpage % 这份学习册不强制补偶数空白页
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\color{Ink}\thepage}
+\fancyhead[LO]{\small\nouppercase{\leftmark}}
+\fancyhead[RE]{\small\color{Ink}从笔记到论文}
+\renewcommand{\chaptermark}[1]{\markboth{第\thechapter 章\quad #1}{}}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{plain}{% 章首页的页码放在页脚
+  \fancyhf{}\fancyfoot[C]{\small\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% ===== 6. 封面：图片与文字分别排版 =====
+% 图片可选：把 cover_banner.png 放在 main.tex 同目录即可。
+% 没有图片时使用数学表达式封面，仍可独立编译。
+\newcommand{\makecover}{%
+  \begin{titlepage}\thispagestyle{empty}
+  \begin{tikzpicture}[remember picture,overlay]
+    \begin{scope}
+      \clip (current page.north west) rectangle
+        ([yshift=-76mm]current page.north east);
+      \fill[Ink!5] (current page.north west) rectangle
+        ([yshift=-76mm]current page.north east);
+      \IfFileExists{cover_banner.png}{%
+        \node[inner sep=0pt] at ([yshift=-38mm]current page.north)
+          {\includegraphics[width=\paperwidth]{cover_banner.png}};
+      }{%
+        \node[text=Teal] at ([yshift=-38mm]current page.north)
+          {\fontsize{32}{40}\selectfont
+           $\displaystyle\int_a^b f(x)\,\dd x\qquad\bm{A}\bm{x}=\bm{b}$};
+      }
+    \end{scope}
+    \fill[CoverTeal] ([yshift=-76mm]current page.north west)
+      rectangle ([yshift=-86mm]current page.north east);
+    \node[anchor=north west,text=Ink,inner sep=0pt] at
+      ([xshift=20mm,yshift=-108mm]current page.north west)
+      {\fontsize{32}{40}\selectfont\sffamily\bfseries 从笔记到论文};
+    \node[anchor=north west,text=Ink,inner sep=0pt] at
+      ([xshift=20mm,yshift=-131mm]current page.north west)
+      {\fontsize{21}{29}\selectfont\bfseries\LaTeX{} 数学排版实战指南};
+    \node[anchor=north west,text=Teal,inner sep=0pt] at
+      ([xshift=20mm,yshift=-153mm]current page.north west)
+      {\large 数学复习笔记\quad /\quad 数学建模写作};
+    \node[anchor=north west,text=black!60,align=left,inner sep=0pt] at
+      ([xshift=20mm,yshift=-184mm]current page.north west)
+      {雪落长安无声\\[5mm]版本：修订版\\[5mm]日期：2026.11.04};
+    \draw[Gold,line width=0.7pt]
+      ([xshift=20mm,yshift=45mm]current page.south west) --
+      ([xshift=-20mm,yshift=45mm]current page.south east);
+    \node[text=Ink] at ([yshift=32mm]current page.south)
+      {让公式有呼吸，让论证有秩序。};
+  \end{tikzpicture}
+  \null\end{titlepage}
+}
+
+% ===== 7. PDF 链接、书签与元数据 =====
+% 常规宏包先加载，hyperref 靠后；其他宏包另有顺序要求时按其说明处理。
+\newif\ifprintversion
+\printversionfalse          % 纸质版改成 true；这里选屏幕阅读版
+\usepackage[unicode]{hyperref}
+\hypersetup{
+  pdftitle={从笔记到论文：LaTeX 数学排版实战指南},
+  pdfauthor={雪落长安无声},
+  pdfsubject={数学笔记与数学建模写作},
+  bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=1,
+  linktoc=all,
+  colorlinks=true,linkcolor=Teal,citecolor=Teal,urlcolor=Teal
+}
+\ifprintversion
+  \hypersetup{hidelinks}    % 隐藏链接颜色和边框，保留点击功能
+\fi
+
+% ===== 正文内容 =====

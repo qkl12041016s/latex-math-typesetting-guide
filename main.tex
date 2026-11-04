@@ -1,0 +1,71 @@
+% !TeX program = xelatex
+\begin{filecontents*}{audit-references.bib}
+@book{liu2013,
+  author = {刘海洋},
+  title = {{LaTeX} 入门},
+  address = {北京},
+  publisher = {电子工业出版社},
+  year = {2013}
+}
+@online{amsmathGuide,
+  author = {{American Mathematical Society} and {The LaTeX Project}},
+  title = {User's Guide for the {amsmath} Package},
+  year = {2020},
+  url = {https://tug.ctan.org/macros/latex/required/amsmath/amsldoc.pdf},
+  urldate = {2026-11-04}
+}
+\end{filecontents*}
+\documentclass[UTF8,11pt,a4paper,twoside,openany,fontset=none,linespread=1]{ctexbook}
+\usepackage{fvextra,array,needspace,gbt7714}
+\bibliographystyle{gbt7714-numerical}
+\input{preamble}
+\usepackage{attachfile2}
+\newcommand{\E}{\mathbb{E}}
+\DeclareMathOperator{\Cov}{Cov}
+\fvset{fontsize=\footnotesize,breaklines=true,breakanywhere=true,
+  numbers=left,numbersep=5pt,xleftmargin=5mm,baselinestretch=1.1,
+  frame=leftline,rulecolor=\color{Teal!35}}
+\newcommand{\sourceattachment}[1]{%
+  \par\smallskip\noindent{\small\color{Teal}%
+    \edef\attachsource{\noexpand\attachfile
+      [mimetype=text/plain,color=0.13 0.49 0.51]{\detokenize{#1}}}%
+    \attachsource
+    \quad 原始源码 \nolinkurl{#1}}\par\smallskip
+}
+\newcommand{\examplecode}[1]{%
+  \par\medskip\Needspace{6\baselineskip}%
+  \noindent{\small\bfseries 完整可编译示例}\par\smallskip
+  \sourceattachment{#1}%
+  \begingroup\setstretch{1}\VerbatimInput{#1}\endgroup
+}
+\newcommand{\examplepreview}[2][.94\linewidth]{%
+  \par\medskip\noindent
+  \begin{minipage}{\linewidth}
+    {\small\bfseries\color{Ink}编译效果}\par\smallskip
+    \centering\includegraphics[width=#1,height=.56\textheight,keepaspectratio]{#2}
+  \end{minipage}\par\medskip
+}
+\begin{document}
+\hypersetup{pageanchor=false}\makecover\hypersetup{pageanchor=true}
+\frontmatter
+\chapter{写在前面}
+我把写数学笔记和数模论文时常用的排版方法放进了这本书。前六章从一套导言区起步，
+逐步加进公式、图表、知识框和交叉引用。第六章把这些零件装进同一份复习笔记，
+最后两章再转到竞赛论文的摘要、算法和文献。
+
+读到想动手的地方，可以从随书的 \texttt{.tex} 文件开始。第二、四、六、八章各有一份包含正文的独立文档。
+代码清单旁标有源文件路径和附件图标。可以用支持附件的 PDF 阅读器保存原始源码，也可以从随书压缩包取用对应的文件。书中的行号和折行用于阅读定位。
+本文档使用 XeLaTeX，目录与交叉引用通常要编译两遍，参考文献按第八章的四步流程处理。
+\tableofcontents
+\mainmatter
+\input{chapters/ch01}
+\input{chapters/ch02}
+\input{chapters/ch03}
+\input{chapters/ch04}
+\input{chapters/ch05}
+\input{chapters/ch06}
+\input{chapters/ch07}
+\input{chapters/ch08}
+\backmatter
+\input{chapters/afterword}
+\end{document}

@@ -1,0 +1,121 @@
+\chapter{数学公式与符号的极简美学}
+
+\section{行内、行间与括号}
+我把变量和短条件放在句子里，例如 \(x>0\)、\(f(x)=\ln x\)。
+需要停下来读的结论则单独成行：
+\[
+  \int_0^1x^2\,\mathrm{d}x=\frac13.
+\]
+需要引用时，使用自动编号：
+\begin{equation}\label{eq:two:ftc}
+  \int_a^b f(x)\,\mathrm{d}x=F(b)-F(a).
+\end{equation}
+这里假设 \(f\) 在 \([a,b]\) 上连续，\(F\) 在 \([a,b]\) 上连续，
+并且在 \((a,b)\) 内满足 \(F'=f\)。
+式~\eqref{eq:two:ftc} 的引用通常要编译两遍才稳定。
+
+在源码里，\verb|\(| 与 \verb|\)| 把短公式留在句子里，
+\verb|\[| 与 \verb|\]| 让公式另起一行且不编号。
+这些定界符本身不印出来。要在公式里印出集合花括号，用 \verb|\{| 和 \verb|\}|。
+\[
+  (a+b),\quad [a,b],\quad \{x\in\mathbb R\mid x>0\},
+  \quad \left(\frac{a+b}{c}\right)^2,
+  \quad \left.\frac{x^3}{3}\right|_0^1.
+\]
+\verb|\left| 与 \verb|\right| 必须配对。单边竖线用点补上不可见的一侧。
+别把一对自动伸缩括号直接拆到 align 的两行。
+
+\section{align：把等号对齐}
+我用高数笔记中的分部积分题演示连续推导：
+\begin{align}
+  \int x\mathrm{e}^x\,\mathrm{d}x
+    &=x\mathrm{e}^x-\int\mathrm{e}^x\,\mathrm{d}x\notag\\
+    &=x\mathrm{e}^x-\mathrm{e}^x+C\notag\\
+    &=(x-1)\mathrm{e}^x+C.
+\end{align}
+\verb|&| 放在等号前，两个反斜杠结束一行。\verb|\notag| 取消该行编号。
+align 自己就是行间环境，不要再套一层数学定界符。
+整组只要一个编号时，可以这样写：
+\begin{equation}
+  \begin{aligned}
+    (x+1)^2&=x^2+2x+1,\\
+    (x-1)^2&=x^2-2x+1.
+  \end{aligned}
+\end{equation}
+aligned 是内部结构，外层 equation 负责整组编号。
+
+\section{矩阵与分段函数}
+线代中的方程组可以写成
+\[
+  \begin{pmatrix}1&1\\2&-1\end{pmatrix}
+  \begin{pmatrix}x\\y\end{pmatrix}
+  =\begin{pmatrix}3\\0\end{pmatrix},\qquad
+  \begin{pmatrix}x\\y\end{pmatrix}=\begin{pmatrix}1\\2\end{pmatrix}.
+\]
+pmatrix 自带圆括号，\verb|&| 分列，两个反斜杠换行。
+先数每行的列数，再怀疑编译器，顺序别反了。
+
+cases 的左列写结果，右列写条件：
+\[
+  g(x)=\begin{cases}-x,&x<0,\\x,&x\geq0.\end{cases}
+\]
+概率论里的正部截断也可以直接排成分段形式。
+设 \(X\sim U(-1,1)\)，\(Y=\max\{X,0\}\)，则
+\[
+  F_Y(t)=\begin{cases}
+    0,&t<0,\\[3pt]
+    \dfrac{t+1}{2},&0\leq t<1,\\[3pt]
+    1,&t\geq1.
+  \end{cases}
+\]
+零点属于中间一段，\(F_Y(0)=1/2\)，不能把这个概率跳跃删掉。
+
+\section{向量与希腊字母}
+在这套数学字体下，mathbf 常用于粗直立拉丁字母，bm 可处理粗斜体与希腊字母：
+\[
+  x,\quad\mathbf{x},\quad\bm{x},\qquad
+  \alpha,\quad\bm{\alpha},\qquad\mathbf{A}\bm{x}=\bm{b}.
+\]
+我只加粗向量主体，例如 \(\bm{x}_i\)，下标通常保持普通字重。
+函数名使用运算符命令，例如 \(\sin x\)、\(\ln x\)。
+少一个反斜杠，有时不报错，只是把函数排成几个散步的字母。
+
+\section{高频符号速查}
+中列给出数学模式内的输入，右列显示效果。
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+用途 & 输入 & 效果 \\
+\midrule
+分式 & \verb|\frac{a}{b}| & \(\frac ab\) \\
+根式 & \verb|\sqrt{x}| & \(\sqrt{x}\) \\
+导数 & \verb|f'(x)| & \(f'(x)\) \\
+偏导 & \verb|\frac{\partial f}{\partial x}| & \(\frac{\partial f}{\partial x}\) \\
+积分 & \verb|\int_a^b f(x)\,\mathrm{d}x| & \(\int_a^b f(x)\,\mathrm{d}x\) \\
+极限 & \verb|\lim_{x\to0}f(x)| & \(\lim_{x\to0}f(x)\) \\
+求和 & \verb|\sum_{i=1}^n x_i| & \(\sum_{i=1}^n x_i\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+用途 & 输入 & 效果 \\
+\midrule
+希腊字母 & \verb|\alpha,\beta,\gamma| & \(\alpha,\beta,\gamma\) \\
+常用参数 & \verb|\theta,\lambda,\sigma| & \(\theta,\lambda,\sigma\) \\
+大小写 & \verb|\delta,\Delta,\Omega| & \(\delta,\Delta,\Omega\) \\
+数集 & \verb|\mathbb{R},\mathbb{N}| & \(\mathbb{R},\mathbb{N}\) \\
+属于 & \verb|\in,\notin| & \(\in,\notin\) \\
+包含 & \verb|\subseteq,\subsetneq| & \(\subseteq,\subsetneq\) \\
+交并 & \verb|A\cap B,A\cup B| & \(A\cap B,A\cup B\) \\
+空集 & \verb|\varnothing| & \(\varnothing\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+符号只记得形状时，我会用 \href{https://detexify.kirelabs.org/}{Detexify}
+画出来查命令，再检查是否需要额外宏包。
+
+\section*{本章完整源码}
+\sourceattachment{clean_chapters/ch02.tex}
+\VerbatimInput{clean_chapters/ch02.tex}

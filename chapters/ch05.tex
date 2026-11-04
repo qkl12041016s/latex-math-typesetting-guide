@@ -1,0 +1,45 @@
+\chapter{长篇工程与交叉引用}
+
+“见第 27 页的公式 3”如果是手写的，增删一段就可能失效。我会从一开始就用标签和引用，文档变长以后，再把内容拆进不同文件。
+
+\section{label 记编号，ref 取编号}
+
+\begin{tcolorbox}[colback=Teal!4,colframe=Teal,boxrule=.7pt,arc=1mm,fontupper=\small\bfseries]\textbf{【特别说明】本节使用独立小样。编号和交叉引用通常需要编译两遍。搬回第一章的 ctexbook 模板时，复制文档起止命令之间的正文。}\end{tcolorbox}
+
+\examplecode{examples/ch05/01_references.tex}
+\examplepreview[.78\linewidth]{previews/ch05_01_references-p1.png}
+
+label 记录当前位置最近建立的可引用编号，ref 取出编号，eqref 为公式编号加圆括号。eq、fig、tab 只是我用来区分标签的前缀，便于查找，不是强制语法。
+
+图表的编号在 caption 处建立，标签应跟在后面。公式标签放在有编号的环境中；取消了该行编号，就别再引用它的独立号码。
+
+hyperref 会让这些引用可以点击。需要自定链接文字时，用示例最后的写法。首次编译建立标签，再编译补齐引用；问号一直不消失，就查拼写、重复标签和日志提示。
+
+\section{哪些内容该拆成文件}
+
+我通常按章节、附录或可复用内容块拆分。主文件放文档类、宏包和整体顺序，章节文件只写内容，不再重复文档起止标记。
+
+把示例存入空目录。第一次编译时，filecontents 会生成两个章节文件，第二次编译后即可核对目录和引用。实际项目可以直接创建这两个文件。
+
+\examplecode{examples/ch05/02_split_project.tex}
+\examplepreview[.78\linewidth]{previews/ch05_02_split_project-p1.png}
+\examplepreview[.78\linewidth]{previews/ch05_02_split_project-p2.png}
+
+input 把文件内容读到当前位置，不主动清页，适合导言区、小段内容和章节。include 会在前后清页，并为单元保存独立辅助文件，适合整章编译。include 不能再嵌套 include，也不适合拆每一个小段。
+
+长书可以用 includeonly 选编某些 include 单元；它不控制 input。被跳过章节的编号和引用，通常依赖此前生成的辅助文件，因此我会先完整编译一次。
+
+文件拆得多不等于工程清楚。一个章节的内容若要在十几个小文件间来回找，往往还不如少拆一点。
+
+\section{目录与附录如何接入}
+
+\examplecode{examples/ch05/03_contents_appendix.tex}
+\examplepreview[.78\linewidth]{previews/ch05_03_contents_appendix-p1.png}
+\examplepreview[.78\linewidth]{previews/ch05_03_contents_appendix-p3.png}
+\examplepreview[.78\linewidth]{previews/ch05_03_contents_appendix-p4.png}
+
+tableofcontents 读取章节记录生成目录，首次通常要再编译。带星号的标题一般不会自动进入目录；若手动加入目录项，还要在使用超链接时处理好目标位置。
+
+ctexbook 的 frontmatter、mainmatter、backmatter 用于前置内容、正文和后置内容，会影响章节编号与页码。appendix 切换后续章节的编号方式，之后仍照常写 chapter 和 section，不必手输“附录 A”。ctexart 没有书籍的前后置接口，不能原样照搬。
+
+我在这本教程中保留目录，方便查阅。参赛论文是否使用目录，要按具体竞赛要求处理，不能因为书籍模板有，就直接留在稿件中。

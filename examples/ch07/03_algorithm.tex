@@ -1,0 +1,39 @@
+% !TeX program = xelatex
+\documentclass[UTF8,11pt,a4paper,linespread=1]{ctexart}
+\usepackage[margin=26mm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{setspace}
+\setstretch{1.35}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\SetKwInput{KwIn}{输入}
+\SetKwInput{KwOut}{输出}
+\SetArgSty{textnormal}
+\SetAlgorithmName{算法}{算法}{算法目录}
+\SetAlgoNlRelativeSize{-1}
+\SetInd{.5em}{1em}
+
+\begin{document}
+\section*{梯度下降：步骤与停止状态分开写}
+\begin{algorithm}[htbp]
+\SetAlgoLined
+\caption{带最大迭代次数的梯度下降}\label{alg:gd}
+\KwIn{可微函数 $f$；初值 $\bm{x}_0$；步长 $\eta>0$；
+  容差 $\varepsilon>0$；最大迭代次数 $K\in\mathbb{Z}_{\geq 0}$}
+\KwOut{最终迭代点 $\bm{x}$、迭代次数 $k$ 与停止原因}
+$\bm{x}\gets\bm{x}_0$\;
+$k\gets0$\;
+$\bm{g}\gets\nabla f(\bm{x})$\;
+\While{$k<K$ \textbf{且} $\lVert\bm{g}\rVert_2>\varepsilon$}{
+  $\bm{x}\gets\bm{x}-\eta\bm{g}$\;
+  $k\gets k+1$\;
+  $\bm{g}\gets\nabla f(\bm{x})$\;
+}
+\eIf{$\lVert\bm{g}\rVert_2\leq\varepsilon$}{
+  输出 $\bm{x}$、$k$，停止原因：达到梯度容差\;
+}{
+  输出 $\bm{x}$、$k$，停止原因：达到迭代上限\;
+}
+\end{algorithm}
+固定步长能否收敛，需要结合函数性质和步长分析。
+达到梯度容差也不自动意味着找到了全局最优解。
+\end{document}

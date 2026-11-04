@@ -1,0 +1,58 @@
+\chapter{图片、三维曲面与结果表}
+
+我做建模图表时，会先决定读者要比较什么：预测和观测的差异，参数变化带来的误差，还是几种方法的结果。图题、坐标与单位交代清楚，再考虑颜色。只把图放进去，离“结果讲清楚”还差一步。
+
+\section{插入 MATLAB 或 Python 导出的数据图}
+
+我在随书文件中放了一张 Python 导出的示例图，使用六组明确标为演示的数据。它不是实验结论。换成自己的图时，保留坐标名称、单位和图例，不要把软件窗口边框一起截进来。
+
+代码查找同目录的 model\_comparison.png。如果文件尚未准备好，会显示缺图提示，不会因为缺图而中断编译。
+
+\begin{tcolorbox}[colback=Teal!4,colframe=Teal,boxrule=.7pt,arc=1mm,fontupper=\small\bfseries]\textbf{【特别说明】本节使用独立小样。编号和交叉引用通常需要编译两遍。搬回第一章的 ctexbook 模板时，复制文档起止命令之间的正文。}\end{tcolorbox}
+
+\examplecode{examples/ch03/01_image.tex}
+\examplepreview{previews/ch03_01_image-p1.png}
+
+includegraphics 负责读入文件，figure 负责浮动位置、图题和编号。这里把图片宽度设为当前行宽的 82\%，不另设高度，原有比例就能保留。若同时指定宽高，应考虑 keepaspectratio，避免拉伸。
+
+caption 建立图号，label 放在它后面。新图片换进来，图题也要改。不要只把“示例图”三个字换成“实验结果”，数据来源与验证过程还得由自己完成。
+
+\section{图片为什么又跑到下一页}
+
+剩下四厘米，要塞一张十厘米高的图，谁来都放不下。图片总是“不听话”，往往只是当前页面没有足够空间。
+
+htbp 是允许位置的集合：h 靠近源码位置，t 页顶，b 页底，p 单独的浮动页。它不是坐标，也不保证严格按字母顺序尝试。排版器还要处理前面没有排出的浮动体。
+
+我先检查尺寸和图表积压，再考虑限制位置。把所有图都强制固定，可能只换来一块大空白。图片里的长说明尽量移到图题或正文，也能减少图片本身的高度。
+
+\section{pgfplots：画一个误差曲面}
+
+我用一个二参数目标函数示意参数搜索：横纵轴是两个待估参数，高度是目标函数值，颜色也表示同一个值。曲面能看出整体形状；若主要任务是读取平面位置，改成热力图通常更方便。
+
+\begin{tcolorbox}[colback=Teal!4,colframe=Teal,boxrule=.7pt,arc=1mm,fontupper=\small\bfseries]\textbf{【特别说明】本节使用独立小样。编号和交叉引用通常需要编译两遍。搬回第一章的 ctexbook 模板时，复制文档起止命令之间的正文。}\end{tcolorbox}
+
+\examplecode{examples/ch03/02_plot.tex}
+\examplepreview{previews/ch03_02_plot-p1.png}
+
+addplot3 的 surf 生成曲面，domain 和 y domain 决定两个参数的取值范围。samples 与 samples y 控制两个方向的采样数量。shader=interp 对网格间的颜色进行插值，图会更平滑；增加采样也会增加编译开销，不必一开始就把数量调得很大。
+
+view 的两个角度控制观察方向与仰角。示例从方位角 55 度、仰角 30 度观察；想看俯视效果，可试 view=\{0\}\{90\}。视角只改变看法，不改变函数值。曲面挡住关键区域时，我会先换角度，而不是马上换模型。
+
+colormap/viridis 选择顺序色图，colorbar 显示颜色与数值的对应关系。这里高度和颜色都代表 J；如果颜色另有含义，必须明确说明。不同方案之间比较时，还应统一颜色范围，不能一张图深色代表 1，另一张图却代表 100。
+
+示例的理论最小值由两个平方项直接算出。颜色和网格取自有限采样，不能用来精确读出极小值。实际建模可以把计算结果整理成坐标表再绘图，或在 Python、MATLAB 中处理后导出。\href{https://tikz.dev/pgfplots/reference-3dplots}{pgfplots 三维绘图文档}
+
+\section{用三线表比较方法}
+
+同一组演示数据，先排普通网格表，再用 booktabs 去掉不必要的边线。
+
+\begin{tcolorbox}[colback=Teal!4,colframe=Teal,boxrule=.7pt,arc=1mm,fontupper=\small\bfseries]\textbf{【特别说明】本节使用独立小样。编号和交叉引用通常需要编译两遍。搬回第一章的 ctexbook 模板时，复制文档起止命令之间的正文。}\end{tcolorbox}
+
+\examplecode{examples/ch03/03_tables.tex}
+\examplepreview{previews/ch03_03_tables-p1.png}
+
+tabular 定义行列，table 提供浮动位置、标题与编号。l、c、r 分别表示左、中、右对齐；\& 分列，两个反斜杠换行。每行元素数必须与列格式一致。
+
+三线表用 \verb|\toprule|、\verb|\midrule| 和 \verb|\bottomrule| 划出表头与数据区，通常省去竖线和逐行横线。我会先统一同一指标的单位和小数位数，再调整表格线。
+
+需要精确对齐小数点时，再考虑 siunitx。表题写清比较对象；统计量与单位也要能在表内或附近找到，不让读者回翻几页猜含义。
