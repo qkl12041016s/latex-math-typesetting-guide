@@ -38,4 +38,4 @@ Windows 也可以直接运行 [build.ps1](build.ps1)。整书和第八章示例�
 
 ## 许可
 
-书稿、示例文档、原创建图和 PDF 按 CC BY-NC 4.0 发布。独立的构建与绘图脚本按 MIT 发布。详见 [LICENSE](LICENSE)。
+书稿、示例文档、原创插图和 PDF 按 CC BY-NC 4.0 发布。独立的构建与绘图脚本按 MIT 发布。详见 [LICENSE](LICENSE)。
