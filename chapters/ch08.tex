@@ -26,6 +26,8 @@ filecontents 首次运行会建立演示数据库。若同名文件已经存在�
 主文件若叫 main.tex，BibTeX 的作业名就是 main，不是数据库名。
 gbt7714 与 biblatex-gb7714 不要混用；后者常搭配 Biber。
 
+\input{revision/biber}
+
 \section{三种常见报错，我怎样排查}
 \subsection{少了括号，后面都成了嫌疑人}
 看到 \verb|Missing } inserted| 时，我会查前面的花括号和分式。
@@ -43,6 +45,8 @@ Undefined control sequence 指向不认识的命令。
 File not found 时，我查编译工作目录、相对路径、扩展名和大小写，
 也留意系统隐藏的双后缀。把 JPG 改成 PNG 后缀并不会转换格式。
 日志是案发现场，最后那句“没生成 PDF”通常只是结案通知，线索还在前面。
+
+\input{revision/typesetting}
 
 \section{交稿前的核对表}
 \begin{center}

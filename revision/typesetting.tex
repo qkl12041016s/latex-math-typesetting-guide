@@ -1,0 +1,16 @@
+\section{补充：行距的单一入口与代码高亮}\label{rev:latex:spacing}
+本书已在 documentclass 中将 ctex 的初始 linespread 显式设为一，再由 setspace 的 setstretch 统一调整正文。实际基线还与字号和字体有关，所以不应把某个 ctex 默认倍率当成所有字号的常数。迁入学校模板时，先查模板是否已管理行距，再决定保留哪一个入口；不要叠加 linespread、onehalfspacing 与多次 setstretch 后凭名字推测效果。
+
+代码块和正文有不同需求。本书代码展示实际采用 fvextra 的 VerbatimInput；Python 核心编程笔记使用 listings。两者都可以折行，但 PDF 文本复制可能混入行号、缩进或折行符，随书源文件才是运行与编译的可靠入口。
+minted 用 Pygments 进行词法高亮，适合现代语言；中文注释能否正确显示还取决于 CJK 字体、引擎和断行设置，不是换宏包就保证解决所有问题。
+\examplecode{examples/revision/minted_demo.tex}
+旧版 minted 通常通过 shell escape 调用 pygmentize，需本机已有 Pygments；新版 minted 的 latexminted 与受限执行支持随发行版而异。只在自己信任的源码和环境中开启所需的执行选项，本书整书编译继续不依赖 minted。小样的依赖与本次实际编译状态见修订验收报告。
+接口差异应以 \href{https://ctan.org/pkg/minted}{minted 官方文档} 为准。
+
+\section{补充：宏包冲突怎样定位}\label{rev:latex:conflicts}
+\begin{description}
+\item[数学字体与符号] amssymb 与 newtxmath 可能在某些组合和版本下重复声明符号。先由数学字体方案统一负责所需符号，再按模板说明决定是否加载 amssymb；不要用反复加载或盲目取消定义来掩盖问题。
+\item[算法环境] algorithm2e 自带算法浮动体与一套命令；algorithm 加 algpseudocode 是另一套组合。algpseudocode 本身并非一个独立算法浮动体，不能笼统说任何时候与 algorithm2e 同装都会冲突。选定一套语法，若模板强制兼容，再按文档处理环境命名。
+\item[引用与子图] hyperref、cleveref、caption 与 subcaption 的加载顺序和选项以当前文档类要求为准。Option clash 通常应回到首次加载处合并选项，而非在后面再加载一次。
+\end{description}
+出现 Command already defined 时，先记下最早报错的命令及两个相关宏包版本；用 listfiles 在日志列出版本，再将导言区缩到可重现的最小组合。修复后重新编译并检查公式、浮动体、引用和目录，日志安静不等于版面已经正确。

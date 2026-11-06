@@ -1,0 +1,10 @@
+% XeLaTeX -> Biber -> XeLaTeX -> XeLaTeX
+\documentclass[UTF8,fontset=fandol]{ctexart}
+\usepackage[backend=biber,style=gb7714-2015]{biblatex}
+\addbibresource{references.bib}
+\usepackage[colorlinks=true]{hyperref}
+\begin{document}
+\section{文献流程小样}
+中文入门书可作排版参考\autocite{liu2013}；宏包用法优先查官方文档\autocite{latexDocs}。
+\printbibliography[title={参考文献}]
+\end{document}

@@ -1,0 +1,11 @@
+% Optional: local minted/Pygments installation required.
+% Older minted versions usually need xelatex -shell-escape.
+\documentclass[UTF8,fontset=fandol]{ctexart}
+\usepackage{minted}
+\begin{document}
+\begin{minted}[breaklines,fontsize=\small]{python}
+# 中文注释由中文字体渲染；高亮与断行分别检查。
+def describe(value: int | str) -> str:
+    return str(value)
+\end{minted}
+\end{document}

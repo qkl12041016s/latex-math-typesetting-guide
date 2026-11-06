@@ -1,0 +1,16 @@
+\section{补充：BibLaTeX 与 Biber 的独立流程}\label{rev:latex:biber}
+前文的 gbt7714 是传统 BibTeX 方案。另一条路线加载 biblatex，并选择 biblatex-gb7714-2015 提供的国标样式，例如 style=gb7714-2015，通常使用 Biber 后端。宏包名、样式名与后端名是三件事，不要把传统 gbt7714 宏包与 biblatex 一起叠加。
+
+在新建目录中放好下面的小样及同目录的 references.bib。这里选 2015 样式是为了与本机 TeX Live 2024 的已安装版本兼容；接收方若要求其他标准，应选择支持对应标准的样式版本并实查输出，不能据此推断所有比赛或学校都推荐同一套工具。
+\examplecode{examples/revision/biber_demo.tex}
+数据库示例使用 BibLaTeX 的 location 与 date 字段：
+\begingroup\setstretch{1}\VerbatimInput{examples/revision/references.bib}\endgroup
+\begin{Verbatim}
+xelatex biber_demo.tex
+biber biber_demo
+xelatex biber_demo.tex
+xelatex biber_demo.tex
+\end{Verbatim}
+Biber 读取第一次编译生成的 .bcf，再写出 .bbl。正文使用 addbibresource 指定数据库，printbibliography 输出文献；这条路线不再使用 bibliographystyle 和 bibliography 命令。切换后端时，建议在新目录重建辅助文件，避免旧 .bbl 与新格式混在一起。
+Biber 与 BibLaTeX 版本需相容。中文排序、字段映射和 URL 断行仍需按样式配置及实际版面检查，不能承诺换引擎就自动消除全部长链接问题。
+样式与版本见 \href{https://ctan.org/pkg/biblatex-gb7714-2015}{CTAN 官方项目页}。

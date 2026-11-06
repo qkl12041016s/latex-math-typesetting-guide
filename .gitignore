@@ -27,6 +27,9 @@
 *.xdv
 *.xdy
 missfont.log
+_minted-*/
+*.pygstyle
+*.pygtex
 audit-references.bib
 demo05-foundation.tex
 demo05-practice.tex

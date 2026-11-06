@@ -1,0 +1,39 @@
+% Compile twice with XeLaTeX. No shell escape required.
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{amsmath,booktabs}
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\title{用投影解释最小二乘}
+\author{雪落长安无声}
+\date{2026年11月7日}
+\begin{document}
+\begin{frame}\titlepage\end{frame}
+\begin{frame}{问题：拟合值为什么是投影？}
+给定满列秩设计矩阵 $X\in\mathbb R^{n\times p}$ 与响应 $y$，求
+\[
+ \min_b\|y-Xb\|_2^2.
+\]
+\begin{block}{本页结论}
+最优残差与 $X$ 的每一列正交。
+\end{block}
+\end{frame}
+\begin{frame}{推导：从正规方程得到投影矩阵}
+\begin{align*}
+ X^{\mathsf T}(y-X\hat b)&=0,\\
+ \hat b&=(X^{\mathsf T}X)^{-1}X^{\mathsf T}y,\\
+ \hat y&=Hy,\quad H=X(X^{\mathsf T}X)^{-1}X^{\mathsf T}.
+\end{align*}
+\pause
+验证 $H^{\mathsf T}=H$、$H^2=H$，即可确认正交投影。
+\end{frame}
+\begin{frame}{核对：结论的条件与下一步}
+\begin{itemize}
+\item 公式要求 $X$ 满列秩；计算中优先使用 QR 或 SVD。
+\item 投影关系是代数结论；统计推断另需误差模型。
+\item 将完整证明放入论文，答辩每页突出一项结论。
+\end{itemize}
+\end{frame}
+\end{document}

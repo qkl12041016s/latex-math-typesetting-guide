@@ -1,0 +1,15 @@
+\chapter{从论文到答辩：Beamer 数学幻灯片}\label{rev:latex:beamer}
+论文可以让读者回看长推导，答辩则需要在有限时间内抓住问题、依据与结论。我会先写每页要说明的一句话，再决定放公式、图还是表。此处提供独立幻灯片文档，不把 beamer 类直接叠到 ctexbook 导言区中。
+
+\section{一份可编译的中文数学汇报}
+\examplecode{examples/revision/beamer_demo.tex}
+保存后用 XeLaTeX 连续编译两遍。示例使用发行版自带的 Madrid 主题和 seahorse 配色，ctex 使用 Fandol 字体；16:9 是版面选择，正式答辩按会场与模板要求调整。最后一页的条件说明与论文正文使用同样的符号约定。
+
+\section{控制信息量与覆盖层}
+frame 是一页逻辑幻灯片；pause 或覆盖层可能使同一 frame 产生多个 PDF 页面，因此帧数与页数不同。示例推导页的 pause 用于先展示正规方程，再展示投影检验。不要为每个词都加动画；让投影设备上的读者看清式子比增加覆盖层更重要。
+较长证明可移到附录帧并通过超链接跳转。宽表格先删减到本页问题需要的列，再决定是否缩小字号；不要把一整页论文按比例压进幻灯片。列环境 columns 适合并排放图和结论，但每列内的图片宽度应相对本列 linewidth 设置。
+
+\section{主题、代码与答辩核对}
+用 setbeamercolor 调整配色，setbeamertemplate 调整页脚与导航；示例隐藏导航图标并显示帧号。如果在 frame 里直接使用 verbatim、listings 或 minted 等代码环境，应标记 frame 的 fragile 选项。沿用主题配色时检查公式、注释和链接的对比度。
+交付时打开实际 PDF 核对字体、公式编号、覆盖层顺序与时间分配，另留一份没有逐步动画的讲义或备份页。编译成功只验证了排版过程，论证与数据仍需另行核实。
+主题与覆盖层接口可查 \href{https://ctan.org/pkg/beamer}{Beamer 官方项目文档}。
